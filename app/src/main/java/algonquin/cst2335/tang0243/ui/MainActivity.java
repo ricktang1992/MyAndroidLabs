@@ -46,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
         ImageView iv=variableBinding.myImageView;
         ImageButton ib=variableBinding.myImageButton;
 
+        model.editString.observe(this, s -> {
+            tv.setText("Your edit text has " + s);
+        });
         b.setOnClickListener(
                 ( v ) -> {
 
