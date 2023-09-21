@@ -4,4 +4,6 @@
     <string name="hello_message">Bonjour tout le monde!</string>
     <string name="button_message">Je suis un bouton</string>
     <string name="editMessage">I\'m an edit message</string>
+    <string name="question">Bois-tu du café?</string>
+    <string name="checkbox2">Checkbox 2</string>
 </resources>
