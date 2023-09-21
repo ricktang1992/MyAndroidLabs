@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
                     CharSequence text = "You Clicked The Image";
                     int duration = Toast.LENGTH_SHORT;
-                    Toast toast = Toast.makeText(this /* MyActivity */, text, duration);
+                    Toast toast = Toast.makeText(this /* MyActivity */, "The width = " + iv.getWidth() + " and height = " + iv.getHeight(), duration);
                     toast.show();
 
                 });
