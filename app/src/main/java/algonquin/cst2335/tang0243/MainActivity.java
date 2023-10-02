@@ -4,8 +4,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
         Intent nextPage = new Intent( MainActivity.this, SecondActivity.class);
         Button loginButton=findViewById(R.id.loginButton);;
         EditText emailEditText=findViewById(R.id.Email_Input);
+        SharedPreferences prefs = getSharedPreferences("MyData", Context.MODE_PRIVATE);
+        emailEditText.setText(prefs.getString("LoginName",""));
         loginButton.setOnClickListener(clk->
             {
                 nextPage.putExtra( "EmailAddress", emailEditText.getText().toString() );

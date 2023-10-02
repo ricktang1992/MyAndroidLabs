@@ -53,7 +53,7 @@ public class SecondActivity extends AppCompatActivity {
 
                             Intent data = result.getData();
                             Bitmap thumbnail = data.getParcelableExtra("data");
-
+                            profileImage.setImageBitmap( thumbnail );
                             //profileImage.setImageBitmap(thumbnail);
                             FileOutputStream fOut = null;
 
@@ -101,11 +101,10 @@ public class SecondActivity extends AppCompatActivity {
         editor.putFloat("Hi",4.5f);
         editor.putInt("Age",35);
         editor.apply();
-        prefs.getInt("PhoneNumber", 0);
 
 
         EditText phoneNumber=findViewById(R.id.editTextPhone);
-
+        phoneNumber.setText(prefs.getString("PhoneNumber",""));
         Button callButton=findViewById(R.id.callButton);
         callButton.setOnClickListener(clk->
         {
