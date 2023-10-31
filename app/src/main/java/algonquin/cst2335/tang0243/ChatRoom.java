@@ -2,6 +2,7 @@ package algonquin.cst2335.tang0243;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -10,17 +11,26 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import algonquin.cst2335.tang0243.data.ChatRoomViewModel;
 import algonquin.cst2335.tang0243.databinding.ActivityChatRoomBinding;
 import algonquin.cst2335.tang0243.databinding.SentMessageBinding;
 import java.util.ArrayList;
 public class ChatRoom extends AppCompatActivity {
-    ArrayList<String> messages = new ArrayList<>();//In the beginning, there is no message.
+    ArrayList<String> messages = null;
+    ChatRoomViewModel chatModel ; //In the beginning, there is no message.
     ActivityChatRoomBinding binding;//
     private RecyclerView.Adapter myAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
+
+        messages = chatModel.messages.getValue();
+        if(messages == null)
+        {
+            chatModel.messages.postValue( messages = new ArrayList<String>());
+        }
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
