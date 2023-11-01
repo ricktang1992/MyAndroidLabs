@@ -14,6 +14,7 @@ import android.widget.TextView;
 import algonquin.cst2335.tang0243.data.ChatMessage;
 import algonquin.cst2335.tang0243.data.ChatRoomViewModel;
 import algonquin.cst2335.tang0243.databinding.ActivityChatRoomBinding;
+import algonquin.cst2335.tang0243.databinding.ReceiveMessageBinding;
 import algonquin.cst2335.tang0243.databinding.SentMessageBinding;
 
 import java.text.SimpleDateFormat;
@@ -57,9 +58,15 @@ public class ChatRoom extends AppCompatActivity {
             @NonNull
             @Override
             public MyRowHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
+                if(viewType==0) {
+                    SentMessageBinding binding = SentMessageBinding.inflate(getLayoutInflater());
+                    return new MyRowHolder(binding.getRoot());
+                }else {
+                    ReceiveMessageBinding binding = ReceiveMessageBinding.inflate(getLayoutInflater());
+                    return new MyRowHolder(binding.getRoot());
+                }
 
-                return new MyRowHolder(binding.getRoot());
+
             }
 
             @Override
