@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:text="Message goes here"
         android:textSize="20dp"
-        app:layout_constraintStart_toEndOf="@+id/sendImage"
+        app:layout_constraintEnd_toStartOf="@+id/receiveImage"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -19,19 +19,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Time goes here"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/messageText" />
 
     <ImageView
-        android:id="@+id/sendImage"
+        android:id="@+id/receiveImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/send_image" />
+        app:srcCompat="@drawable/receive_image" />
 
     <ImageView
-        android:id="@+id/blackLine"
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         app:layout_constraintStart_toStartOf="parent"
