@@ -31,9 +31,11 @@ android {
 }
 
 dependencies {
-
+    val room_version = "2.4.2"
+    implementation ("androidx.room:room-runtime:$room_version")
+    annotationProcessor ("androidx.room:room-compiler:$room_version")
     implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation ("androidx.recyclerview:recyclerview:1.1.0")
+    implementation ("androidx.recyclerview:recyclerview:1.3.2")
     implementation("com.google.android.material:material:1.8.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
     //implementation(fileTree(mapOf("dir" to "C:\\Users\\RickT\\AppData\\Local\\Android\\Sdk\\platforms\\android-33", "include" to listOf("*.aar", "*.jar"), "exclude" to listOf("*.abc"))))
