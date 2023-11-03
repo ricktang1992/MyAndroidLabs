@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -32,15 +33,19 @@ public class ChatRoom extends AppCompatActivity {
     ArrayList<ChatMessage> messages = null;
     ChatRoomViewModel chatModel ; //In the beginning, there is no message.
     ActivityChatRoomBinding binding;//
-    private RecyclerView.Adapter myAdapter;
+    private  RecyclerView.Adapter myAdapter;
     ChatMessageDAO mDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "database-name").build();
         mDAO = db.cmDAO();
-        chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
+
 
         messages = chatModel.messages.getValue();
         if(messages == null)
@@ -55,22 +60,35 @@ public class ChatRoom extends AppCompatActivity {
                 runOnUiThread( () ->  binding.recycleView.setAdapter( myAdapter )); //You can then load the RecyclerView
             });
         }
-        binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+
 
         binding.sendButton.setOnClickListener(click -> {
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
             String currentDateAndTime = sdf.format(new Date());
-            messages.add(new ChatMessage(binding.textInput.getText().toString(),currentDateAndTime,true));
-            myAdapter.notifyItemInserted(messages.size()-1);
+            ChatMessage thisMessage=new ChatMessage(binding.textInput.getText().toString(),currentDateAndTime,true);
+            messages.add(thisMessage);
+            myAdapter.notifyDataSetChanged();
             binding.textInput.setText("");
+            Executor thread1 = Executors.newSingleThreadExecutor();
+            thread1.execute(( ) -> {
+                //this is on a background thread
+                thisMessage.id = (int)mDAO.insertMessage(thisMessage); //get the ID from the database
+                Log.d("TAG", "The id created is:" + thisMessage.id);
+            }); //the body of run()
         });
         binding.receiveButton.setOnClickListener(click -> {
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
             String currentDateAndTime = sdf.format(new Date());
-            messages.add(new ChatMessage(binding.textInput.getText().toString(),currentDateAndTime,false));
-            myAdapter.notifyItemInserted(messages.size()-1);
+            ChatMessage thisMessage=new ChatMessage(binding.textInput.getText().toString(),currentDateAndTime,false);
+            messages.add(thisMessage);
+            myAdapter.notifyDataSetChanged();
             binding.textInput.setText("");
+            Executor thread1 = Executors.newSingleThreadExecutor();
+            thread1.execute(( ) -> {
+                //this is on a background thread
+                thisMessage.id = (int)mDAO.insertMessage(thisMessage); //get the ID from the database
+                Log.d("TAG", "The id created is:" + thisMessage.id);
+            }); //the body of run()
         });
         binding.recycleView.setAdapter(myAdapter = new RecyclerView.Adapter<MyRowHolder>() {
             @NonNull
@@ -129,12 +147,24 @@ public class ChatRoom extends AppCompatActivity {
                                 .setPositiveButton("Yes", (dialog, cl) -> {
                                     ChatMessage removedMessage = messages.get(position);
                                     messages.remove(position);
-                                    myAdapter.notifyItemRemoved(position);
+                                    myAdapter.notifyDataSetChanged();
+                                    Executor thread1 = Executors.newSingleThreadExecutor();
+                                    thread1.execute(( ) -> {
+                                        //this is on a background thread
+                                        mDAO.deleteMessage(removedMessage); //get the ID from the database
+                                        Log.d("TAG", "The id removed is:" + removedMessage.id);
+                                    }); //the body of run()
                                     Snackbar.make(messageText,"You deleted message #"
                                             + position,Snackbar.LENGTH_LONG)
                                             .setAction("Undo", click -> {
                                                 messages.add(position,removedMessage);
-                                                myAdapter.notifyItemInserted(position);
+                                                myAdapter.notifyDataSetChanged();
+                                                Executor thread2 = Executors.newSingleThreadExecutor();
+                                                thread2.execute(( ) -> {
+                                                    //this is on a background thread
+                                                    removedMessage.id = (int)mDAO.insertMessage(removedMessage); //get the ID from the database
+                                                    Log.d("TAG", "The id created is:" + removedMessage.id);
+                                                }); //the body of run()
                                             }).show();
                                 }).create().show();
             });
