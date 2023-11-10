@@ -50,6 +50,7 @@ public class ChatRoom extends AppCompatActivity {
 
 
         messages = chatModel.messages.getValue();
+        //get data from Database
         if(messages == null)
         {
             chatModel.messages.setValue(messages = new ArrayList<>());
@@ -63,7 +64,7 @@ public class ChatRoom extends AppCompatActivity {
             });
         }
 
-
+        //send Button click funtion to put message into database.
         binding.sendButton.setOnClickListener(click -> {
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
             String currentDateAndTime = sdf.format(new Date());
@@ -78,6 +79,8 @@ public class ChatRoom extends AppCompatActivity {
                 Log.d("TAG", "The id created is:" + thisMessage.id);
             }); //the body of run()
         });
+
+        //receive Button click funtion to put message into database.
         binding.receiveButton.setOnClickListener(click -> {
             SimpleDateFormat sdf = new SimpleDateFormat("EEEE, dd-MMM-yyyy hh-mm-ss a");
             String currentDateAndTime = sdf.format(new Date());
@@ -131,7 +134,7 @@ public class ChatRoom extends AppCompatActivity {
             MessageDetailsFragment chatFragment = new MessageDetailsFragment( newMessageValue );
             FragmentManager fMgr = getSupportFragmentManager();
             FragmentTransaction tx = fMgr.beginTransaction();
-
+            tx.addToBackStack("anything?");
             tx.replace(R.id.fragmentLocation,chatFragment);
             tx.commit();
         });
