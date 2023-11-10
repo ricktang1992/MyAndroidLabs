@@ -5,6 +5,8 @@ import static androidx.appcompat.app.AppCompatDelegate.create;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -125,7 +127,14 @@ public class ChatRoom extends AppCompatActivity {
                 return messages.size();
             }
         });
+        chatModel.selectedMessage.observe(this, (newMessageValue) -> {
+            MessageDetailsFragment chatFragment = new MessageDetailsFragment( newMessageValue );
+            FragmentManager fMgr = getSupportFragmentManager();
+            FragmentTransaction tx = fMgr.beginTransaction();
 
+            tx.replace(R.id.fragmentLocation,chatFragment);
+            tx.commit();
+        });
         binding.recycleView.setLayoutManager(new LinearLayoutManager(this));
     }
     class MyRowHolder extends RecyclerView.ViewHolder {
@@ -136,7 +145,11 @@ public class ChatRoom extends AppCompatActivity {
             super(itemView);
 
             itemView.setOnClickListener(clk -> {
-                        int position = getAbsoluteAdapterPosition();
+                int position = getAbsoluteAdapterPosition();
+                ChatMessage selected = messages.get(position);
+
+                chatModel.selectedMessage.postValue(selected);
+                /*     int position = getAbsoluteAdapterPosition();
                         MyRowHolder newRow = (MyRowHolder) myAdapter.onCreateViewHolder(null, myAdapter.getItemViewType(position));
 
                         AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
@@ -166,7 +179,7 @@ public class ChatRoom extends AppCompatActivity {
                                                     Log.d("TAG", "The id created is:" + removedMessage.id);
                                                 }); //the body of run()
                                             }).show();
-                                }).create().show();
+                                }).create().show();*/
             });
             messageText = itemView.findViewById(R.id.messageText);
             timeText = itemView.findViewById(R.id.timeText);
