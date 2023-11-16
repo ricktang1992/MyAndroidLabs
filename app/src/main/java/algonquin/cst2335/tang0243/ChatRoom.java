@@ -19,6 +19,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -221,7 +222,12 @@ public class ChatRoom extends AppCompatActivity {
         switch( item.getItemId() )
         {
             case R.id.item_1:
-
+                //put your ChatMessage deletion code here. If you select this item, you should show the alert dialog
+                //asking if the user wants to delete this message.
+                break;
+            case R.id.item_2:
+                CharSequence text = "Version 1.0, created by Ziyao Tang";
+                Toast.makeText(this,text, Toast.LENGTH_SHORT).show();
                 //put your ChatMessage deletion code here. If you select this item, you should show the alert dialog
                 //asking if the user wants to delete this message.
                 break;
