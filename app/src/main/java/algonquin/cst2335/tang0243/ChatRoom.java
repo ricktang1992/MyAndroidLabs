@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.room.Room;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -222,6 +223,38 @@ public class ChatRoom extends AppCompatActivity {
         switch( item.getItemId() )
         {
             case R.id.item_1:
+                     /*int position = getAbsoluteAdapterPosition();
+                        MyRowHolder newRow = (MyRowHolder) myAdapter.onCreateViewHolder(null, myAdapter.getItemViewType(position));
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
+
+                builder.setMessage("Do you want to delete the message:"
+                                        + messageText.getText()).setTitle("Question: ")
+                                .setNegativeButton("No", (dialog, cl) -> {
+                                })
+                                .setPositiveButton("Yes", (dialog, cl) -> {
+                                    ChatMessage removedMessage = messages.get(position);
+                                    messages.remove(position);
+                                    myAdapter.notifyDataSetChanged();
+                                    Executor thread1 = Executors.newSingleThreadExecutor();
+                                    thread1.execute(( ) -> {
+                                        //this is on a background thread
+                                        mDAO.deleteMessage(removedMessage); //get the ID from the database
+                                        Log.d("TAG", "The id removed is:" + removedMessage.id);
+                                    }); //the body of run()
+                                    Snackbar.make(messageText,"You deleted message #"
+                                            + position,Snackbar.LENGTH_LONG)
+                                            .setAction("Undo", click -> {
+                                                messages.add(position,removedMessage);
+                                                myAdapter.notifyDataSetChanged();
+                                                Executor thread2 = Executors.newSingleThreadExecutor();
+                                                thread2.execute(( ) -> {
+                                                    //this is on a background thread
+                                                    removedMessage.id = (int)mDAO.insertMessage(removedMessage); //get the ID from the database
+                                                    Log.d("TAG", "The id created is:" + removedMessage.id);
+                                                }); //the body of run()
+                                            }).show();
+                                }).create().show();*/
                 //put your ChatMessage deletion code here. If you select this item, you should show the alert dialog
                 //asking if the user wants to delete this message.
                 break;
