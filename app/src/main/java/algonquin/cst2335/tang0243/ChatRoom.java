@@ -32,35 +32,50 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
 public class ChatRoom extends AppCompatActivity {
+    // ArrayList to store chat messages
     ArrayList<ChatMessage> messages = null;
-    ChatRoomViewModel chatModel ; //In the beginning, there is no message.
-    ActivityChatRoomBinding binding;//
-    private  RecyclerView.Adapter myAdapter;
+
+    // ViewModel for managing data related to the chat room
+    ChatRoomViewModel chatModel;
+
+    // View binding for the activity
+    ActivityChatRoomBinding binding;
+
+    // RecyclerView adapter for displaying chat messages
+    private RecyclerView.Adapter myAdapter;
+
+    // Data Access Object for interacting with the message database
     ChatMessageDAO mDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Inflating the layout using view binding
         binding = ActivityChatRoomBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // Initializing the ViewModel for the chat room
         chatModel = new ViewModelProvider(this).get(ChatRoomViewModel.class);
+
+        // Creating or retrieving the message database
         MessageDatabase db = Room.databaseBuilder(getApplicationContext(), MessageDatabase.class, "database-name").build();
         mDAO = db.cmDAO();
 
-
+        // Retrieving messages from ViewModel
         messages = chatModel.messages.getValue();
-        //get data from Database
-        if(messages == null)
-        {
+
+        // If no messages are present, fetch them from the database
+        if (messages == null) {
             chatModel.messages.setValue(messages = new ArrayList<>());
 
+            // Execute database query on a background thread
             Executor thread = Executors.newSingleThreadExecutor();
-            thread.execute(() ->
-            {
-                messages.addAll( mDAO.getAllMessages() ); //Once you get the data from database
+            thread.execute(() -> {
+                messages.addAll(mDAO.getAllMessages());
 
-                runOnUiThread( () ->  binding.recycleView.setAdapter( myAdapter )); //You can then load the RecyclerView
+                // Load the RecyclerView on the UI thread
+                runOnUiThread(() -> binding.recycleView.setAdapter(myAdapter));
             });
         }
 
