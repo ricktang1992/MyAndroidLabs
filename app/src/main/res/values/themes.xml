@@ -12,6 +12,9 @@
 
         <!-- Text color. -->
         <item name="android:textColor">@color/my_secondary</item>
+
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="Theme.ZiyaosAndroidLabs" parent="Base.Theme.ZiyaosAndroidLabs" />
