@@ -14,6 +14,8 @@ import androidx.room.Room;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -48,6 +50,15 @@ public class ChatRoom extends AppCompatActivity {
     ChatMessageDAO mDAO;
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        super.onCreateOptionsMenu(menu);
+        getMenuInflater().inflate(R.menu.my_menu, menu);
+        return true;
+    }
+
+
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -78,6 +89,7 @@ public class ChatRoom extends AppCompatActivity {
                 runOnUiThread(() -> binding.recycleView.setAdapter(myAdapter));
             });
         }
+        setSupportActionBar( binding.myToolbar);
 
         //send Button click funtion to put message into database.
         binding.sendButton.setOnClickListener(click -> {
@@ -203,5 +215,18 @@ public class ChatRoom extends AppCompatActivity {
             timeText = itemView.findViewById(R.id.timeText);
 
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch( item.getItemId() )
+        {
+            case R.id.item_1:
+
+                //put your ChatMessage deletion code here. If you select this item, you should show the alert dialog
+                //asking if the user wants to delete this message.
+                break;
+        }
+
+        return true;
     }
 }
