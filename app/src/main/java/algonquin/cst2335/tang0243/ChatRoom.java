@@ -223,17 +223,17 @@ public class ChatRoom extends AppCompatActivity {
         switch( item.getItemId() )
         {
             case R.id.item_1:
-                     /*int position = getAbsoluteAdapterPosition();
-                        MyRowHolder newRow = (MyRowHolder) myAdapter.onCreateViewHolder(null, myAdapter.getItemViewType(position));
 
-                        AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
+                    ChatMessage removedMessage = chatModel.selectedMessage.getValue();
+                int position = messages.indexOf(removedMessage);
+                     AlertDialog.Builder builder = new AlertDialog.Builder(ChatRoom.this);
 
                 builder.setMessage("Do you want to delete the message:"
-                                        + messageText.getText()).setTitle("Question: ")
+                                        + removedMessage.getMessage()).setTitle("Question: ")
                                 .setNegativeButton("No", (dialog, cl) -> {
                                 })
                                 .setPositiveButton("Yes", (dialog, cl) -> {
-                                    ChatMessage removedMessage = messages.get(position);
+
                                     messages.remove(position);
                                     myAdapter.notifyDataSetChanged();
                                     Executor thread1 = Executors.newSingleThreadExecutor();
@@ -242,7 +242,7 @@ public class ChatRoom extends AppCompatActivity {
                                         mDAO.deleteMessage(removedMessage); //get the ID from the database
                                         Log.d("TAG", "The id removed is:" + removedMessage.id);
                                     }); //the body of run()
-                                    Snackbar.make(messageText,"You deleted message #"
+                                    Snackbar.make(this.findViewById(R.id.messageText),"You deleted message #"
                                             + position,Snackbar.LENGTH_LONG)
                                             .setAction("Undo", click -> {
                                                 messages.add(position,removedMessage);
@@ -254,7 +254,8 @@ public class ChatRoom extends AppCompatActivity {
                                                     Log.d("TAG", "The id created is:" + removedMessage.id);
                                                 }); //the body of run()
                                             }).show();
-                                }).create().show();*/
+                                }).create().show();
+                getSupportFragmentManager() .popBackStack();
                 //put your ChatMessage deletion code here. If you select this item, you should show the alert dialog
                 //asking if the user wants to delete this message.
                 break;
