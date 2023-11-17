@@ -5,7 +5,9 @@ plugins {
 android {
     namespace = "algonquin.cst2335.tang0243"
     compileSdk = 33
-
+    buildFeatures{
+        viewBinding=true
+    }
     defaultConfig {
         applicationId = "algonquin.cst2335.tang0243"
         minSdk = 22
@@ -29,11 +31,11 @@ android {
 }
 
 dependencies {
-
+    implementation ("com.android.volley:volley:1.2.1")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.8.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation(fileTree(mapOf("dir" to "C:\\Users\\RickT\\AppData\\Local\\Android\\Sdk\\platforms\\android-33", "include" to listOf("*.aar", "*.jar"), "exclude" to listOf("*.abc"))))
+    //implementation(fileTree(mapOf("dir" to "C:\\Users\\RickT\\AppData\\Local\\Android\\Sdk\\platforms\\android-33", "include" to listOf("*.aar", "*.jar"), "exclude" to listOf("*.abc"))))
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
